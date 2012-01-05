@@ -112,10 +112,12 @@ class Publishable extends \lithium\core\StaticObject {
 	 */
 	protected static function _registerHandlerMethods($class){
 		$handler = static::$_classes['EventHandler'];
-		if (!$handler::isEventRegistered()) {
+		if (!$handler::isEventRegistered('publish')) {
 			$handler::register('publish', function($entity,$options) {
 				return Publishable::invokeMethod('publish',array($entity, $options));
 			});
+		}
+		if (!$handler::isEventRegistered('depublish')) {
 			$handler::register('depublish', function($entity,$options) {
 				return Publishable::invokeMethod('depublish',array($entity, $options));
 			});
