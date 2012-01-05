@@ -86,6 +86,16 @@ class EventHandler extends \lithium\core\StaticObject {
 		}
 		static::$_registered_events[$event_name] = $function;
 	}
+
+	/**
+	 * Checks if a Handler is already existing
+	 * 
+	 * @param string $event_name
+	 * @return boolean
+	 */
+	public static function isEventRegistered($event_name){
+		return array_key_exists($event_name, static::$_registered_events);
+	}
 }
 
 ?>
