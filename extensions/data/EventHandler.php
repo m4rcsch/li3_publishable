@@ -89,7 +89,7 @@ class EventHandler extends \lithium\core\StaticObject {
 
 	/**
 	 * Checks if a Handler is already existing
-	 * 
+	 *
 	 * @param string $event_name
 	 * @return boolean
 	 */

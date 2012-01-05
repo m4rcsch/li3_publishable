@@ -65,7 +65,6 @@ class PublishableTest extends \lithium\test\Unit {
 	      )
 		));
 		$this->assertTrue($model->save(null,$options));
-		var_dump($model->errors());
 	}
 
 	public function testDeleteFilter(){
