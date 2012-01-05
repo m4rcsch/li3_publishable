@@ -1,4 +1,10 @@
 <?php
+/**
+ * EventHandler: a lithium php "MagicMethod" Helper
+ *
+ * @copyright     Copyright 2012, M Schwering
+ * @license       http://opensource.org/licenses/bsd-license.php The BSD License
+ */
 
 namespace li3_publishable\extensions\data;
 
@@ -44,7 +50,7 @@ class EventHandler extends \lithium\core\StaticObject {
 	 *     Locale::territory('en_US'); // returns 'US'
 	 * }}}
 	 * @throws Exeption if Event is not existing
-	 * @param string $method
+	 * @param string $event
 	 * @param array $params
 	 * @return boolean
 	 */
@@ -56,7 +62,7 @@ class EventHandler extends \lithium\core\StaticObject {
 		$params += array(null, array());
 		list($entity, $options) = $params;
 
-		if(is_null($entity)) {
+		if (is_null($entity)) {
 			throw new InvalidArgumentException("You have to pass at least one parameter.");
 		}
 
@@ -72,7 +78,7 @@ class EventHandler extends \lithium\core\StaticObject {
 	 * @param type $function
 	 */
 	public static function register($event_name,$function){
-		if(!is_callable($function)) {
+		if (!is_callable($function)) {
 			throw new InvalidArgumentException("Function is not callable `{$function}`.");
 		}
 		if (isset(static::$_registered_events[$event_name])) {

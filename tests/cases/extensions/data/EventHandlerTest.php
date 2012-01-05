@@ -1,8 +1,8 @@
 <?php
 /**
- * li3_dateable: a lithium php behavior
+ * li3_publishable: a lithium php behavior
  *
- * @copyright     Copyright 2011, weluse GmbH (http://weluse.de)
+ * @copyright     Copyright 2012, M Schwering
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
 
@@ -106,7 +106,7 @@ class EventHandlerTest extends \lithium\test\Unit {
 	public function testCallStaticWithParams(){
 		$instance = $this->_handler;
 		$func = function($param) {
-			return $param = $param+1;
+			return $param = $param + 1;
 		};
 
 		$instance::register('foo',$func);

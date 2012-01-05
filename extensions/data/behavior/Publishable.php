@@ -1,8 +1,8 @@
 <?php
 /**
- * publishable: a lithium php behavior
+ * li3_publishable: a lithium php behavior
  *
- * @copyright     Copyright 2011, weluse GmbH (http://weluse.de by M Schwering
+ * @copyright     Copyright 2012, M Schwering
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
 
@@ -10,8 +10,6 @@ namespace li3_publishable\extensions\data\behavior;
 
 use lithium\data\Connections;
 use lithium\util\Set;
-
-use InvalidArgumentException;
 
 /**
  *
@@ -32,7 +30,7 @@ class Publishable extends \lithium\core\StaticObject {
 		'filters' => array(
 			'create' => array(
 				'auto' => true, //if true a published flag will be added on create
-				'value' => false,
+				'value' => false
 			),
 			'save' => array(
 				'auto' => true,
@@ -81,7 +79,7 @@ class Publishable extends \lithium\core\StaticObject {
 		if ($config['filters']['save']['auto']) {
 			$class::applyFilter('save', function($self, $params, $chain) use ($class) {
 				$params = Publishable::invokeMethod('_filterSave', array($class, $params));
-				if(!$params) {
+				if (!$params) {
 					return false;
 				}
 				return $chain->next($self, $params, $chain);
@@ -134,7 +132,7 @@ class Publishable extends \lithium\core\StaticObject {
 		$meta = $class::meta();
 		$database = Connections::get($meta['connection']);
 
-		list($field, ) = $keys;
+		list($field) = $keys;
 
 		$field = is_string($field) ? array($field => 1) : $updated;
 
@@ -172,11 +170,11 @@ class Publishable extends \lithium\core\StaticObject {
 
 		//in case of validation and isset true
 		$valid = true;
-		if($validate && $entity->$field) {
+		if ($validate && $entity->$field) {
 			$rules = (is_array($validate)) ? $validate : array();
 			$rules += $config['filters']['save']['rules'];
 
-			var_dump($rules);
+			//var_dump($rules);
 			$params['options']['validate'] = $rules;
 			//die();
 			//$valid = $entity->validates(compact('rules'));
@@ -190,7 +188,7 @@ class Publishable extends \lithium\core\StaticObject {
 	 * @todo maybe filter validates!
 	 *
 	 * @param string|object $class
-	 * @param array $options
+	 * @param array $params
 	 */
 	protected static function _filterDelete($class, $params) {
 		$config = static::$_configurations[$class];
@@ -218,7 +216,7 @@ class Publishable extends \lithium\core\StaticObject {
 
 		$defaults = array(
 			'data' => null,
-			'options' => array(),
+			'options' => array()
 		);
 
 		$params += $defaults;
@@ -242,7 +240,7 @@ class Publishable extends \lithium\core\StaticObject {
 
 		$defaults = array(
 			'data' => null,
-			'options' => array(),
+			'options' => array()
 		);
 
 		$params += $defaults;
@@ -300,7 +298,6 @@ class Publishable extends \lithium\core\StaticObject {
 //		}
 //		return $options;
 //	}
-
 
 }
 

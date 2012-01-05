@@ -1,8 +1,8 @@
 <?php
 /**
- * li3_dateable: a lithium php behavior
+ * li3_publishable: a lithium php behavior
  *
- * @copyright     Copyright 2011, weluse GmbH (http://weluse.de)
+ * @copyright     Copyright 2012, M Schwering
  * @license       http://opensource.org/licenses/bsd-license.php The BSD License
  */
 
@@ -50,21 +50,27 @@ class PublishableTest extends \lithium\test\Unit {
 	}
 
 	public function testSaveAutoFilter(){
-		$model = MockDatabaseCoffee::create(array('id' => 12,'published' => false));//,array("exists" => true)
+		$model = MockDatabaseCoffee::create(array(
+			'id' => 12,
+			'published' => false
+		));//,array("exists" => true)
 		$this->assertTrue($model->save()); //null,array('validate' => false))
 		$this->assertTrue($model->save(array('published' => true)));
 
 		$options = array('validate' => array(
 			'email' => array(
 	          array('notEmpty', 'message' => 'Email is empty.'),
-	          array('email', 'message' => 'Email is not valid.'),
+	          array('email', 'message' => 'Email is not valid.')
 	      )
 		));
 		$this->assertTrue($model->save(null,$options));
 	}
 
 	public function testDeleteFilter(){
-		$model = MockDatabaseCoffee::create(array('id'=>12,'published' => true));//,array("exists" => true)
+		$model = MockDatabaseCoffee::create(array(
+			'id'=>12,
+			'published' => true
+		));//,array("exists" => true)
 
 		$data = $model->data();
 		//die('tot');
