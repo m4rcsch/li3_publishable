@@ -56,6 +56,7 @@ class Publishable extends \lithium\core\StaticObject {
 	 * @param array	$config
 	 */
 	public static function bind($class, array $config = array()) {
+
 		$defaults = static::$_defaults;
 		$config += $defaults;
 
@@ -104,15 +105,21 @@ class Publishable extends \lithium\core\StaticObject {
 		return static::$_configurations[$class];
 	}
 
+	/**
+	 * Sets the EventHandler call
+	 * @param type $class
+	 * @return void
+	 */
 	protected static function _registerHandlerMethods($class){
 		$handler = static::$_classes['EventHandler'];
-		$handler::register('publish', function($entity,$options) {
-
-			return Publishable::invokeMethod('publish',array($entity, $options));
-		});
-		$handler::register('depublish', function($entity,$options) {
-			return Publishable::invokeMethod('depublish',array($entity, $options));
-		});
+		if (!$handler::isEventRegistered()) {
+			$handler::register('publish', function($entity,$options) {
+				return Publishable::invokeMethod('publish',array($entity, $options));
+			});
+			$handler::register('depublish', function($entity,$options) {
+				return Publishable::invokeMethod('depublish',array($entity, $options));
+			});
+		}
 	}
 
 	/**
