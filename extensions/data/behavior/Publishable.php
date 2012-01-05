@@ -46,7 +46,8 @@ class Publishable extends \lithium\core\StaticObject {
 	);
 
 	protected static $_classes = array(
-		'EventHandler' => 'li3_publishable\extensions\data\EventHandler'
+		'EventHandler' => 'li3_publishable\extensions\data\EventHandler',
+		'Set' => 'lithium\util\Set'
 	);
 
 	/**
@@ -56,9 +57,9 @@ class Publishable extends \lithium\core\StaticObject {
 	 * @param array	$config
 	 */
 	public static function bind($class, array $config = array()) {
-
+		$set = static::$_classes['Set'];
 		$defaults = static::$_defaults;
-		$config += $defaults;
+		$config = $set::merge($defaults,$config);
 
 		//If the date fields should be indexed
 		if ($config['autoIndex']) {
@@ -175,21 +176,17 @@ class Publishable extends \lithium\core\StaticObject {
 
 		$entity = $params['entity'];
 		$data = is_array($params['data']) ? $params['data'] : array();
-		$entity->set($data);
 
 		//in case of validation and isset true
-		$valid = true;
 		if ($validate && $entity->$field) {
 			$rules = (is_array($validate)) ? $validate : array();
 			$rules += $config['filters']['save']['rules'];
 
 			//var_dump($rules);
 			$params['options']['validate'] = $rules;
-			//die();
-			//$valid = $entity->validates(compact('rules'));
 		}
 
-		return ($valid) ? $params : false;
+		return $params;
 	}
 
 	/**
@@ -231,8 +228,11 @@ class Publishable extends \lithium\core\StaticObject {
 		$params += $defaults;
 
 		$entity->$field = true;
-
-		return $entity->save($params['data'],$params['options']);
+		$success = $entity->save($params['data'],$params['options']);
+		if (!$success) {
+			$entity->$field = false;
+		}
+		return $success;
 	}
 
 	/**
