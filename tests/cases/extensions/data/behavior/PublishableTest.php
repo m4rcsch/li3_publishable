@@ -52,7 +52,8 @@ class PublishableTest extends \lithium\test\Unit {
 	public function testSaveAutoFilter(){
 		$model = MockDatabaseCoffee::create(array(
 			'id' => 12,
-			'published' => false
+			'published' => false,
+			'email' => 'foo@bar.de'
 		));//,array("exists" => true)
 		$this->assertTrue($model->save()); //null,array('validate' => false))
 		$this->assertTrue($model->save(array('published' => true)));
@@ -64,6 +65,7 @@ class PublishableTest extends \lithium\test\Unit {
 	      )
 		));
 		$this->assertTrue($model->save(null,$options));
+		var_dump($model->errors());
 	}
 
 	public function testDeleteFilter(){
