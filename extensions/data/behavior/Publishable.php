@@ -181,8 +181,6 @@ class Publishable extends \lithium\core\StaticObject {
 		if ($validate && $entity->$field) {
 			$rules = (is_array($validate)) ? $validate : array();
 			$rules += $config['filters']['save']['rules'];
-
-			//var_dump($rules);
 			$params['options']['validate'] = $rules;
 		}
 
@@ -226,13 +224,14 @@ class Publishable extends \lithium\core\StaticObject {
 		);
 
 		$params += $defaults;
+		$params['options']['events'] = 'publish';
 
 		$entity->$field = true;
-		$success = $entity->save($params['data'],$params['options']);
-		if (!$success) {
+		$valid = $entity->validates($params['options']);
+		if (!$valid) {
 			$entity->$field = false;
 		}
-		return $success;
+		return ($valid) ? $entity->save($params['data'],$params['options']) : false;
 	}
 
 	/**
@@ -253,10 +252,15 @@ class Publishable extends \lithium\core\StaticObject {
 		);
 
 		$params += $defaults;
+		$params['options']['events'] = 'depublish';
 
 		$entity->$field = false;
+		$valid = $entity->validates($params['options']);
+		if (!$valid) {
+			$entity->$field = true;
+		}
 
-		return $entity->save($params['data'],$params['options']);
+		return ($valid) ? $entity->save($params['data'],$params['options']) : false;
 	}
 
 //	/**
