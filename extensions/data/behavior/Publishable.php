@@ -226,12 +226,11 @@ class Publishable extends \lithium\core\StaticObject {
 		$params += $defaults;
 		$params['options']['events'] = 'publish';
 
+		$entity->set($params['data']);
 		$entity->$field = true;
 		$valid = $entity->validates($params['options']);
-		if (!$valid) {
-			$entity->$field = false;
-		}
-		return ($valid) ? $entity->save($params['data'],$params['options']) : false;
+
+		return ($valid) ? $entity->save(null,$params['options']) : false;
 	}
 
 	/**
