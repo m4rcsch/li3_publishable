@@ -176,7 +176,8 @@ class Publishable extends \lithium\core\StaticObject {
 
 		$entity = $params['entity'];
 		$data = is_array($params['data']) ? $params['data'] : array();
-
+		$entity->set($data);
+		
 		//in case of validation and isset true
 		if ($validate && $entity->$field) {
 			$params['options']['events'] = 'publish';
