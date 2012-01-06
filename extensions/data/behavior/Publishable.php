@@ -179,9 +179,13 @@ class Publishable extends \lithium\core\StaticObject {
 
 		//in case of validation and isset true
 		if ($validate && $entity->$field) {
+			$params['options']['events'] = 'publish';
 			$rules = (is_array($validate)) ? $validate : array();
 			$rules += $config['filters']['save']['rules'];
 			$params['options']['validate'] = $rules;
+			if (empty($params['options']['validate'])) {
+				$params['options']['validate'] = true;
+			}
 		}
 
 		return $params;
