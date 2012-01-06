@@ -1,0 +1,4 @@
+li3_publishable is shipped with a simple Decorater called EventHandler which is holding an array of Events
+events should be callable.
+
+it is under heavy development so do not hesitate to contact me for ideas and/or improvements
