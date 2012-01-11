@@ -89,6 +89,20 @@ class EventHandlerTest extends \lithium\test\Unit {
 		$instance::foo(null);
 	}
 
+	public function testIsEventRegistered(){
+		$instance = $this->_handler;
+
+		$this->assertFalse($instance::isEventRegistered('foo'));
+
+		$func = function($param) {
+			return $param;
+		};
+		$instance::register('foo',$func);
+
+		$this->assertTrue($instance::isEventRegistered('foo'));
+
+	}
+
 	public function testCallStaticWithNoParams(){
 		$instance = $this->_handler;
 		$func = function($param) {
