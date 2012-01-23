@@ -224,7 +224,7 @@ class Publishable extends \lithium\core\StaticObject {
 		$field = $config['field'];
 
 		$defaults = array(
-			'data' => null,
+			'data' => array(),
 			'options' => array()
 		);
 
